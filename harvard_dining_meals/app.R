@@ -32,21 +32,25 @@ ui <- dashboardPage(skin = "red",
       # First tab content
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Database"),
-              h4("Summary"),
-              h6("This dashboard serves a record keeper for Harvard's Undergradudate dining hall menus starting from
+              h2("Summary"),
+              h4("This dashboard serves a record keeper for Harvard's Undergradudate dining hall menus starting from
                 the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
                 Additional tabs include some cool trends and graphs that we have discovered from some close analysis of the menus."),
-              h4("Background/Methodology"),
-              h6("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
+              h2("Background/Methodology"),
+              h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
-              h6("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
+              h4("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
               system, HUDS provides no archiving feature for meal options from previous days."),
-              h6("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's website each day.
+              h4("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's website each day.
                 Harvard Open Data Project (HODP), a student organization on campus, has already developed a scraper that has collected information 
                 since the beginning of the Spring 2019 semester.")
               ),
       
       tabItem(tabName = "calendar",
+              h2("Harvard Dining Archive"),
+              h4("Starting from the beginning of the spring semester (1/21/2019) to today, we have scraped every meal and its menu items. Please not that on Sundays
+                breakfast is not served and there is only brunch and dinner. Brunch will fall under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
+                or school Holidays/breaks which the table will show no data for."),
               fluidRow(
                 box(
                   title = "Meal Selection",
@@ -125,7 +129,9 @@ server <- function(input, output) {
   huds <-gsheet2tbl('https://docs.google.com/spreadsheets/d/1S3vFDul1PeB84Zd8G5ewe1ocZ6ezidQzAp5gn1eiHtQ/edit#gid=0') %>%
     mutate(Date = as.Date(Date, "%m-%d-%Y")) %>%
     filter(Date >= "2019-01-25") %>% 
-    mutate(week = weekdays(as.Date(Date,'%Y-%m-%d'))) %>% 
+    mutate(week = weekdays(as.Date(Date,'%Y-%m-%d'))) 
+    
+  huds_filter <- huds %>% 
     filter(!str_detect(Food, "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf"))
   
   x <- huds
@@ -139,7 +145,7 @@ server <- function(input, output) {
     
     output$meatselect <- renderPlot({
         
-        z <- huds %>% 
+        z <- huds_filter %>% 
           count(Food) %>% 
           filter(str_detect(Food, input$meatType)) %>% 
           arrange(desc(n)) %>% 
@@ -156,7 +162,7 @@ server <- function(input, output) {
     
     output$mealselect <- renderPlot({
       
-      y <- huds %>% 
+      y <- huds_filter %>% 
         
         filter(str_detect(Meal, input$mealType)) %>% 
         count(Food) %>%
@@ -174,7 +180,7 @@ server <- function(input, output) {
     
     output$weekselect <- renderPlot({
       
-      aa <- huds %>% 
+      aa <- huds_filter %>% 
       filter(str_detect(week, input$weeks)) %>% 
       filter(str_detect(Meal, input$meal2)) %>% 
       count(Food) %>%

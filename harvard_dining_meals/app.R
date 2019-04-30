@@ -34,7 +34,7 @@ ui <- dashboardPage(skin = "red",
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Database"),
               h2("Summary"),
-              h3("This dashboard serves a record keeper for Harvard's Undergradudate dining hall menus starting from
+              h3("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menus starting from
                 the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
                 Additional tabs include some cool trends and graphs that we have discovered from some close analysis of the menus."),
               h2("Background/Methodology"),
@@ -42,8 +42,9 @@ ui <- dashboardPage(skin = "red",
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
               h3("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
               system, HUDS provides no archiving feature for meal options from previous days."),
-              h3("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's website each day.
-                Harvard Open Data Project (HODP), a student organization on campus, has already developed a scraper that has collected information 
+              h3("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
+                 "each day. Harvard Open Data Project (HODP), a student organization on campus, has already developed", 
+                 a("a scraper", href = "http://hodp.org/catalog/index.html?q=huds"), "that has collected information 
                 since the beginning of the Spring 2019 semester.")
               ),
       

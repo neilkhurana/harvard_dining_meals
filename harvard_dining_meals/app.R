@@ -183,8 +183,12 @@ server <- function(input, output) {
   huds_filter <- huds %>% 
     filter(!str_detect(Food, "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf"))
   
-  x <- huds
+  
   output$table <- renderDT({
+    
+    #For this tab that displays a data table of the menu items, we do not filter out anything.
+    
+    x <- huds
     x %>% 
       filter(Date == input$date) %>%
       filter(Meal == input$meal) %>% 
@@ -194,6 +198,8 @@ server <- function(input, output) {
     
     output$meatselect <- renderPlot({
         
+      #Bar graph dsiplaying the top 10 meat items of the selected meat in descending order 
+      
         z <- huds_filter %>% 
           count(Food) %>% 
           filter(str_detect(Food, input$meatType)) %>% 
@@ -204,7 +210,7 @@ server <- function(input, output) {
           theme(axis.text.x = element_text(angle = 30, hjust = 1), 
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank()) +
-          labs(x = "Menu Item", y = "Number of Times Served") +
+          labs(x = "Menu Item", y = "Freqency Served") +
           theme(axis.text=element_text(size=12),
                 axis.title=element_text(size=14,face="bold"))
         
@@ -220,12 +226,14 @@ server <- function(input, output) {
         arrange(desc(n)) %>% 
         slice(1:20)
       
+      #Bar graph displaying top 20 meal items by meal for entire semester
+      
       ggplot(data = y, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-        labs(x = "Menu Item", y = "Number of Times Served")+
+        labs(x = "Menu Item", y = "Frequency Served")+
         theme(axis.text=element_text(size=12),
               axis.title=element_text(size=14,face="bold"))
       
@@ -241,12 +249,15 @@ server <- function(input, output) {
       count(Food) %>%
       arrange(desc(n)) %>% 
       slice(1:10)
+      
+      #Bar graph where user has much more flexibility in choosing the meal and day of the week they would like to select
+      
       ggplot(data = aa, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-          labs(x = "Menu Item", y = "Number of Times Served") + 
+          labs(x = "Menu Item", y = "Frequency Served") + 
         theme(axis.text=element_text(size=12),
               axis.title=element_text(size=14,face="bold"))
       

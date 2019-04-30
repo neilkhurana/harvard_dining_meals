@@ -33,15 +33,15 @@ ui <- dashboardPage(skin = "red",
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Database"),
               h2("Summary"),
-              h4("This dashboard serves a record keeper for Harvard's Undergradudate dining hall menus starting from
+              h3("This dashboard serves a record keeper for Harvard's Undergradudate dining hall menus starting from
                 the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
                 Additional tabs include some cool trends and graphs that we have discovered from some close analysis of the menus."),
               h2("Background/Methodology"),
-              h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
+              h3("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
-              h4("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
+              h3("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
               system, HUDS provides no archiving feature for meal options from previous days."),
-              h4("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's website each day.
+              h3("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's website each day.
                 Harvard Open Data Project (HODP), a student organization on campus, has already developed a scraper that has collected information 
                 since the beginning of the Spring 2019 semester.")
               ),
@@ -150,7 +150,7 @@ server <- function(input, output) {
           filter(str_detect(Food, input$meatType)) %>% 
           arrange(desc(n)) %>% 
           slice(1:10)
-        ggplot(data = z, aes(x= Food, y = n)) +
+        ggplot(data = z, aes(x= reorder(Food, -n), y = n)) +
           geom_bar(stat = "identity", fill = "firebrick1") +
           theme(axis.text.x = element_text(angle = 30, hjust = 1), 
                 panel.grid.major = element_blank(),
@@ -168,7 +168,8 @@ server <- function(input, output) {
         count(Food) %>%
         arrange(desc(n)) %>% 
         slice(1:20)
-      ggplot(data = y, aes(x= Food, y = n)) +
+      
+      ggplot(data = y, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),
@@ -186,7 +187,7 @@ server <- function(input, output) {
       count(Food) %>%
       arrange(desc(n)) %>% 
       slice(1:10)
-      ggplot(data = aa, aes(x= Food, y = n)) +
+      ggplot(data = aa, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),

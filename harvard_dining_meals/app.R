@@ -45,11 +45,12 @@ ui <- dashboardPage(skin = "red",
       # First tab content including descriptions and sources
       
       tabItem(tabName = "home",
-              h1("Welcome to the Harvard University Dining Services (HUDS) Database"),
+              h1("Welcome to the Harvard University Dining Services (HUDS) Search Tool"),
               h2("Summary"),
               h3("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menus starting from
                 the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
-                Additional tabs include some cool trends and graphs that we have discovered from some close analysis of the menus."),
+                Additional tabs give you a breakdown in the variation of the menu as you can see
+                 you to see the most popular dishes during the entire semester or certain weekday. You can also categorize popular meat dishes."),
               h2("Background/Methodology"),
               h3("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
@@ -58,7 +59,10 @@ ui <- dashboardPage(skin = "red",
               h3("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
                  "each day. Harvard Open Data Project (HODP), a student organization on campus, has already developed", 
                  a("a scraper", href = "http://hodp.org/catalog/index.html?q=huds"), "that has collected information 
-                since the beginning of the Spring 2019 semester.")
+                since the beginning of the Spring 2019 semester."),
+              h2("Contact"),
+              h3("Feel free to reach out to me, Neil Khurana, at neilkhurana@college.harvard.edu. You can check out my GitHub and code", a("here", 
+                  href = "https://github.com/neilkhurana/harvard_dining_meals"),".")
               ),
       
       # Another tab content with the purpose of archiving every Harvard meal from the beginning of the spring semester. 

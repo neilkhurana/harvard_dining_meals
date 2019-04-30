@@ -47,21 +47,22 @@ ui <- dashboardPage(skin = "red",
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Search Tool"),
               h2("Summary"),
-              h3("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menus starting from
+              h4("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menus starting from
                 the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
                 Additional tabs give you a breakdown in the variation of the menu as you can see
                  you to see the most popular dishes during the entire semester or certain weekday. You can also categorize popular meat dishes."),
               h2("Background/Methodology"),
-              h3("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
+              h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
-              h3("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
+              h4("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
               system, HUDS provides no archiving feature for meal options from previous days."),
-              h3("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
+              h4("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
                  "each day. Harvard Open Data Project (HODP), a student organization on campus, has already developed", 
                  a("a scraper", href = "http://hodp.org/catalog/index.html?q=huds"), "that has collected information 
                 since the beginning of the Spring 2019 semester."),
               h2("Contact"),
-              h3("Feel free to reach out to me, Neil Khurana, at", a("neilkhurana@college.harvard.edu", href = "mailto:my_awesome_email_address.com"),". You can check out my GitHub and code", a("here", 
+              h4("Feel free to reach out to me, Neil Khurana, at", a("neilkhurana@college.harvard.edu", href = "mailto:neilkhurana@college.harvard.edu"),". You can check 
+                 out my",a("GitHub", href = "https://github.com/neilkhurana"),"and code", a("here", 
                   href = "https://github.com/neilkhurana/harvard_dining_meals"),".")
               ),
       
@@ -119,6 +120,8 @@ ui <- dashboardPage(skin = "red",
           ),
       
       #Next tab item
+      
+      #Tab descriptions are all at the top. 
       
       tabItem(tabName = "mealselect",
               h2("Commonly Served Meals"),
@@ -212,13 +215,16 @@ server <- function(input, output) {
     
     output$meatselect <- renderPlot({
         
-      #Bar graph dsiplaying the top 10 meat items of the selected meat in descending order 
+        #Formatting for later use
       
         z <- huds_filter %>% 
           count(Food) %>% 
           filter(str_detect(Food, input$meatType)) %>% 
           arrange(desc(n)) %>% 
           slice(1:10)
+      
+        #Bar graph dsiplaying the top 10 meat items of the selected meat in descending order 
+        
         ggplot(data = z, aes(x= reorder(Food, -n), y = n)) +
           geom_bar(stat = "identity", fill = "firebrick1") +
           theme(axis.text.x = element_text(angle = 30, hjust = 1), 
@@ -234,6 +240,8 @@ server <- function(input, output) {
     output$mealselect <- renderPlot({
       
       y <- huds_filter %>% 
+        
+        #formatted data for later use
         
         filter(str_detect(Meal, input$mealType)) %>% 
         count(Food) %>%
@@ -256,6 +264,8 @@ server <- function(input, output) {
     })
     
     output$weekselect <- renderPlot({
+      
+      #Formatted data for later use
       
       aa <- huds_filter %>% 
       filter(str_detect(week, input$weeks)) %>% 

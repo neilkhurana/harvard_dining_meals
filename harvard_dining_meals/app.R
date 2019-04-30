@@ -61,7 +61,7 @@ ui <- dashboardPage(skin = "red",
                  a("a scraper", href = "http://hodp.org/catalog/index.html?q=huds"), "that has collected information 
                 since the beginning of the Spring 2019 semester."),
               h2("Contact"),
-              h3("Feel free to reach out to me, Neil Khurana, at neilkhurana@college.harvard.edu. You can check out my GitHub and code", a("here", 
+              h3("Feel free to reach out to me, Neil Khurana, at", a("neilkhurana@college.harvard.edu", href = "mailto:my_awesome_email_address.com"),". You can check out my GitHub and code", a("here", 
                   href = "https://github.com/neilkhurana/harvard_dining_meals"),".")
               ),
       

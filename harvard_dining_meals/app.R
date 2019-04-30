@@ -21,9 +21,10 @@ ui <- dashboardPage(skin = "red",
     sidebarMenu(
       menuItem("Home", tabName = "home", icon = icon("dashboard")),
       menuItem("Calendar", tabName = "calendar", icon = icon("calendar")),
-      menuItem("Meat Frequency", tabName = "meatselect", icon = icon("th")),
-      menuItem("Meal Frequency", tabName = "mealselect", icon = icon("th")),
-      menuItem("Weekday Frequency", tabName = "weekdayselect", icon = icon("th"))
+      menuItem("Common Meals of the Semester", tabName = "mealselect", icon = icon("school")),
+      menuItem("Popular Meals by Weekday", tabName = "weekdayselect", icon = icon("clock")),
+      menuItem("Meat Dishes", tabName = "meatselect", icon = icon("utensils"))
+      
     )
   ),
   dashboardBody(
@@ -47,10 +48,10 @@ ui <- dashboardPage(skin = "red",
               ),
       
       tabItem(tabName = "calendar",
-              h2("Harvard Dining Archive"),
+              h2("Harvard Dining Archive Calendar"),
               h4("Starting from the beginning of the spring semester (1/21/2019) to today, we have scraped every meal and its menu items. Please not that on Sundays
                 breakfast is not served and there is only brunch and dinner. Brunch will fall under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
-                or school Holidays/breaks which the table will show no data for."),
+                or school holidays/breaks which the table will show no data for."),
               fluidRow(
                 box(
                   title = "Meal Selection",
@@ -58,9 +59,11 @@ ui <- dashboardPage(skin = "red",
                               c("Breakfast",
                                 "Lunch",
                                 "Dinner")),
+                  h5(helpText("Select your meal time above.")),
                   dateInput("date", label = "Date Input", value = NULL, min = NULL, max = NULL,
                             format = "yyyy-mm-dd", startview = "month", weekstart = 0,
-                            language = "en", width = NULL)
+                            language = "en", width = NULL),
+                  h5(helpText("Select the desired date to view menu."))
                 ),
                 
                 DTOutput("table", height = 300)
@@ -75,7 +78,8 @@ ui <- dashboardPage(skin = "red",
                   selectInput("meatType", "Meat:",
                               c("Beef" = "Beef",
                                 "Chicken" = "Chicken",
-                                "Pork" = "Pork"))
+                                "Pork" = "Pork")),
+                  h5(helpText("Select your choice of meat."))
                 ),
                 
                 plotOutput("meatselect", height = 500)
@@ -89,7 +93,8 @@ ui <- dashboardPage(skin = "red",
                   selectInput("mealType", "Meal:",
                               c("Breakfast",
                                 "Lunch",
-                                "Dinner"))
+                                "Dinner")),
+                  h5(helpText("Select your meal time."))
                 ),
                 
                 plotOutput("mealselect", height = 500)
@@ -108,10 +113,12 @@ ui <- dashboardPage(skin = "red",
                                 "Thursday",
                                 "Friday",
                                 "Saturday")),
+                  h5(helpText("Select your desired day of the week.")),
                   selectInput("meal2", "Meal:",
                               c("Breakfast",
                                 "Lunch",
-                                "Dinner"))
+                                "Dinner")),
+                  h5(helpText("Select your desired meal time."))
                 ),
                 
                 plotOutput("weekselect", height = 500)
@@ -155,7 +162,9 @@ server <- function(input, output) {
           theme(axis.text.x = element_text(angle = 30, hjust = 1), 
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank()) +
-          labs(x = "Menu Item", y = "Number of Times Served")
+          labs(x = "Menu Item", y = "Number of Times Served") +
+          theme(axis.text=element_text(size=12),
+                axis.title=element_text(size=14,face="bold"))
         
       
     })
@@ -174,7 +183,10 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-        labs(x = "Menu Item", y = "Number of Times Served")
+        labs(x = "Menu Item", y = "Number of Times Served")+
+        theme(axis.text=element_text(size=12),
+              axis.title=element_text(size=14,face="bold"))
+      
       
       
     })
@@ -192,7 +204,10 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(angle = 30, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-          labs(x = "Menu Item", y = "Number of Times Served")  
+          labs(x = "Menu Item", y = "Number of Times Served") + 
+        theme(axis.text=element_text(size=12),
+              axis.title=element_text(size=14,face="bold"))
+      
         
         
       

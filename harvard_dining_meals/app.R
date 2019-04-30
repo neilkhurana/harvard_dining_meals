@@ -15,9 +15,15 @@ library(gsheet)
 library(DT)
 library(lubridate)
 
+#Change theme to red, closer to Harvard Crimson theme colors
+
+
 ui <- dashboardPage(skin = "red",
   dashboardHeader(title = "Harvard Dining"),
   dashboardSidebar(
+    
+#Assign each tab a suitable name for its purpose
+    
     sidebarMenu(
       menuItem("Home", tabName = "home", icon = icon("dashboard")),
       menuItem("Calendar", tabName = "calendar", icon = icon("calendar")),
@@ -27,10 +33,17 @@ ui <- dashboardPage(skin = "red",
       
     )
   ),
+
+
+#Beginning of our body for each tab
+
   dashboardBody(
+    
     # Boxes need to be put in a row (or column)
     tabItems(
-      # First tab content
+      
+      # First tab content including descriptions and sources
+      
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Database"),
               h2("Summary"),
@@ -48,6 +61,8 @@ ui <- dashboardPage(skin = "red",
                 since the beginning of the Spring 2019 semester.")
               ),
       
+      # Another tab content with the purpose of archiving every Harvard meal from the beginning of the spring semester. 
+      
       tabItem(tabName = "calendar",
               h2("Harvard Dining Archive Calendar"),
               h4("Starting from the beginning of the spring semester (1/21/2019) to today, we have scraped every meal and its menu items. Please not that on Sundays
@@ -56,18 +71,26 @@ ui <- dashboardPage(skin = "red",
               fluidRow(
                 box(
                   title = "Meal Selection",
+                  
+                  #Users may select their meal choice
+                  
                   selectInput("meal", "Meal:",
                               c("Breakfast",
                                 "Lunch",
                                 "Dinner")),
                   h5(helpText("Select your meal time above.")),
+                  
+                  #Users may pick a date on the calendar
+                  
                   dateInput("date", label = "Date Input", value = NULL, min = NULL, max = NULL,
                             format = "yyyy-mm-dd", startview = "month", weekstart = 0,
                             language = "en", width = NULL),
                   h5(helpText("Select the desired date to view menu."))
                 ),
                 
-                DTOutput("table", height = 300)
+               #This is an output of everything on the menu for the selected meal and day
+               
+                 DTOutput("table", height = 300)
                 
               )
         ), 
@@ -87,9 +110,15 @@ ui <- dashboardPage(skin = "red",
                 
               )
           ),
+      
+      #Next tab item
+      
       tabItem(tabName = "mealselect",
               fluidRow(
                 box(
+                  
+                  #Users may select a meal time and the most common items served during that meal time will be displayed
+                  
                   title = "Meal Selection",
                   selectInput("mealType", "Meal:",
                               c("Breakfast",
@@ -101,10 +130,15 @@ ui <- dashboardPage(skin = "red",
                 plotOutput("mealselect", height = 500)
               )
         ),
+      
+      #Next tab is created 
+      
         tabItem(tabName = "weekdayselect",
               fluidRow(
                 box(
                   title = "Meal Selection",
+                  
+                  #Users select the day of the week desired
                   
                   selectInput("weeks", "Day of Week:",
                               c("Sunday",
@@ -115,6 +149,9 @@ ui <- dashboardPage(skin = "red",
                                 "Friday",
                                 "Saturday")),
                   h5(helpText("Select your desired day of the week.")),
+                  
+                  #Users select the meal they are interested in
+                  
                   selectInput("meal2", "Meal:",
                               c("Breakfast",
                                 "Lunch",
@@ -134,10 +171,14 @@ ui <- dashboardPage(skin = "red",
 
 server <- function(input, output) {
   
+  #Our data is loaded from this google sheet. The HODP scraped dumps each days menu items into here
+  
   huds <-gsheet2tbl('https://docs.google.com/spreadsheets/d/1S3vFDul1PeB84Zd8G5ewe1ocZ6ezidQzAp5gn1eiHtQ/edit#gid=0') %>%
     mutate(Date = as.Date(Date, "%m-%d-%Y")) %>%
     filter(Date >= "2019-01-25") %>% 
     mutate(week = weekdays(as.Date(Date,'%Y-%m-%d'))) 
+  
+  #We filter out menu items that contain these key words primarly because these items are served by HUDS everyday and their would be no variation in their frequency
     
   huds_filter <- huds %>% 
     filter(!str_detect(Food, "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf"))

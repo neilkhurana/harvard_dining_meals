@@ -100,6 +100,9 @@ ui <- dashboardPage(skin = "red",
         ), 
       
       tabItem(tabName = "meatselect",
+              h2("Top 10 Meat Dishes"),
+              h4("The most common meats served by HUDS are chicken, pork and meat. In this tab you may view the top ten most frequently served dishes
+                 containing your selected meat choice."),
               fluidRow(
                 box(
                   title = "Meat Selection",
@@ -118,6 +121,9 @@ ui <- dashboardPage(skin = "red",
       #Next tab item
       
       tabItem(tabName = "mealselect",
+              h2("Commonly Served Meals"),
+              h4("Students at Harvard often claim their is frequent repitition of dishes. Pick your meal below and see the top 20 most commonly
+                 served dishes during that meal period. Please note that entrees served by HUDS daily such as fruits, ice cream, and sauce have been filtered out."),
               fluidRow(
                 box(
                   
@@ -138,6 +144,10 @@ ui <- dashboardPage(skin = "red",
       #Next tab is created 
       
         tabItem(tabName = "weekdayselect",
+                h2("Weekday Meals"),
+                h4("Every wonder if certain meals are more prone to be served on a certain day of the week? Now's your chance to find out. Select the day of the week 
+                   and meal time. Please note that entrees served by HUDS on a daily basis have been filtered out. There is also no breakfast served on Sunday's and only
+                   a brunch/lunch."),
               fluidRow(
                 box(
                   title = "Meal Selection",
@@ -145,13 +155,13 @@ ui <- dashboardPage(skin = "red",
                   #Users select the day of the week desired
                   
                   selectInput("weeks", "Day of Week:",
-                              c("Sunday",
-                                "Monday",
+                              c("Monday",
                                 "Tuesday",
                                 "Wednesday",
                                 "Thursday",
                                 "Friday",
-                                "Saturday")),
+                                "Saturday",
+                                "Sunday")),
                   h5(helpText("Select your desired day of the week.")),
                   
                   #Users select the meal they are interested in

@@ -48,18 +48,17 @@ ui <- dashboardPage(skin = "red",
       tabItem(tabName = "home",
               h1("Welcome to the Harvard University Dining Services (HUDS) Search Tool"),
               h2("Summary"),
-              h4("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menus starting from
-                the beginning of the Spring 2019 semester. You have the option to see past menus, todays menu and future menus on our calendar tab.
-                Additional tabs give you a breakdown in the variation of the menu as you can see
-                 you to see the most popular dishes during the entire semester or certain weekday. You can also categorize popular meat dishes."),
+              h4("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menu for the Spring 2019 semester.
+                You have the option to the menu of any date within the semester in our calendar tab.
+                Additional tabs give you a breakdown of the frequently serves dishes of the entire semester or a certain weekday. You can also categorize frequent meat dishes."),
               h2("Background/Methodology"),
-              h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassemen houses offer
+              h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassmen houses offer
               the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
-              h4("The objective of this investigation is to explore trends in the HUDS menu data while also serving as a record keeper for meals offered throughout. With the current 
-              system, HUDS provides no archiving feature for meal options from previous days."),
-              h4("In order to gain access to HUDS menu's, I simply needed a script that would scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
-                 "each day. Harvard Open Data Project (HODP), a student organization on campus, has already developed", 
-                 a("a scraper", href = "http://hodp.org/catalog/index.html?q=huds"), "that has collected information 
+              h4("The objective of this investigation was to explore trends in the HUDS menu data while also serving as a record keeper for meals offered. With the current 
+              system, HUDS provides no archiving feature for meal options of previous days."),
+              h4("In order to gain access to HUDS menu's, I simply used script that scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
+                 "each day. Harvard Open Data Project (HODP), a student organization on campus, has developed", 
+                 a("this", href = "http://hodp.org/catalog/index.html?q=huds"), "and it has been collecting information 
                 since the beginning of the Spring 2019 semester."),
               h2("Contact"),
               h4("Feel free to reach out to me, Neil Khurana, at", a("neilkhurana@college.harvard.edu", href = "mailto:neilkhurana@college.harvard.edu"),". You can check 
@@ -71,14 +70,14 @@ ui <- dashboardPage(skin = "red",
       
       tabItem(tabName = "calendar",
               h2("Harvard Dining Archive Calendar"),
-              h4("Starting from the beginning of the spring semester (1/21/2019) to today, we have scraped every meal and its menu items. Please not that on Sundays
-                breakfast is not served and there is only brunch and dinner. Brunch will fall under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
-                or school holidays/breaks which the table will show no data for."),
+              h4("Starting from the beginning of the spring semester (1/28/2019) and ending on 5/10/2019, we have scraped every meal and its menu items. Please not that on Sundays
+                breakfast is not served (Only brunch and dinner). Brunch falls under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
+                or school holidays/breaks and there is no data for these dates."),
               fluidRow(
                 box(
                   title = "Meal Selection",
                   
-                  #Users may select their meal choice
+                  #Users may select their meal time
                   
                   selectInput("meal", "Meal:",
                               c("Breakfast",
@@ -86,9 +85,9 @@ ui <- dashboardPage(skin = "red",
                                 "Dinner")),
                   h5(helpText("Select your meal time above.")),
                   
-                  #Users may pick a date on the calendar
+                  #Users may pick a date on the calendar within the semester
                   
-                  dateInput("date", label = "Date Input", value = NULL, min = NULL, max = NULL,
+                  dateInput("date", label = "Date Input", value = "2019-05-10", min = "2019-01-28", max = "2019-05-10",
                             format = "yyyy-mm-dd", startview = "month", weekstart = 0,
                             language = "en", width = NULL),
                   h5(helpText("Select the desired date to view menu."))
@@ -148,6 +147,10 @@ ui <- dashboardPage(skin = "red",
       #Next tab is created 
       
         tabItem(tabName = "weekdayselect",
+                
+        #Descriptions and headings for weekday selection
+                
+                
                 h2("Weekday Meals"),
                 h4("Every wonder if certain meals are more prone to be served on a certain day of the week? Now's your chance to find out. Select the day of the week 
                    and meal time. Please note that entrees served by HUDS on a daily basis have been filtered out. There is also no breakfast served on Sunday's and only
@@ -233,7 +236,7 @@ server <- function(input, output) {
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank()) +
           labs(x = "Menu Item", y = "Freqency Served") +
-          theme(axis.text=element_text(size=10),
+          theme(axis.text=element_text(size=12),
                 axis.title=element_text(size=15,face="bold"))
         
       
@@ -243,11 +246,14 @@ server <- function(input, output) {
       
       y <- huds_filter %>% 
         
-        #formatted data for later use
+      #formatted data dependent on user input
         
         filter(str_detect(Meal, input$mealType)) %>% 
         count(Food) %>%
         arrange(desc(n)) %>% 
+        
+      #Top 20 most frequent are used for this purpose of most common meals of entire semester
+        
         slice(1:20)
       
       #Bar graph displaying top 20 meal items by meal for entire semester
@@ -267,7 +273,7 @@ server <- function(input, output) {
         #Title/axis names and font/size are selected
         
         labs(x = "Menu Item", y = "Frequency Served")+
-        theme(axis.text=element_text(size=10),
+        theme(axis.text=element_text(size=12),
               axis.title=element_text(size=15,face="bold"))
       
       
@@ -308,7 +314,7 @@ server <- function(input, output) {
         #Title names and font/size are selected
           
         labs(x = "Menu Item", y = "Frequency Served") + 
-        theme(axis.text=element_text(size=10),
+        theme(axis.text=element_text(size=12),
               axis.title=element_text(size=15,face="bold"))
       
         

@@ -104,7 +104,10 @@ ui <- dashboardPage(skin = "red",
               h2("Top 10 Meat Dishes"),
               h4("The most common meats served by HUDS are chicken, pork and meat. In this tab you may view the top ten most frequently served dishes
                  containing your selected meat choice."),
-              fluidRow(
+             
+              #Meat choices are made, only pork, chicken and beef
+              
+               fluidRow(
                 box(
                   title = "Meat Selection",
                   selectInput("meatType", "Meat:",
@@ -119,7 +122,7 @@ ui <- dashboardPage(skin = "red",
               )
           ),
       
-      #Next tab item
+      
       
       #Tab descriptions are all at the top. 
       
@@ -130,7 +133,7 @@ ui <- dashboardPage(skin = "red",
               fluidRow(
                 box(
                   
-                  #Users may select a meal time and the most common items served during that meal time will be displayed
+                  #Users may select a meal time from the dropdown and the most common items served during that meal time will be displayed
                   
                   title = "Meal Selection",
                   selectInput("mealType", "Meal:",
@@ -202,6 +205,9 @@ server <- function(input, output) {
   #We filter out menu items that contain these key words primarly because these items are served by HUDS everyday and their would be no variation in their frequency
     
   huds_filter <- huds %>% 
+    
+    #Please note that this filter code only works if places one long line and cannot be separated into a line break
+    
     filter(!str_detect(Food, 
           "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Cream|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf|Blueberries|Apples|Bananas"))
   

@@ -253,10 +253,19 @@ server <- function(input, output) {
       #Bar graph displaying top 20 meal items by meal for entire semester
       
       ggplot(data = y, aes(reorder(Food, -n), y = n)) +
+        
+        #Bar color selection 
+        
         geom_bar(stat = "identity", fill = "firebrick1") +
+        
+        #Title of each item is at an angle so it fits in space
+        
         theme(axis.text.x = element_text(angle = 60, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
+        
+        #Title/axis names and font/size are selected
+        
         labs(x = "Menu Item", y = "Frequency Served")+
         theme(axis.text=element_text(size=10),
               axis.title=element_text(size=15,face="bold"))
@@ -270,20 +279,35 @@ server <- function(input, output) {
       #Formatted data for later use
       
       aa <- huds_filter %>% 
+        
+      #Appropriate filters in place reliant on user input
+      
       filter(str_detect(week, input$weeks)) %>% 
       filter(str_detect(Meal, input$meal2)) %>% 
       count(Food) %>%
       arrange(desc(n)) %>% 
+        
+      #Top ten most frequent are used for this graph
+        
       slice(1:10)
       
       #Bar graph where user has much more flexibility in choosing the meal and day of the week they would like to select
       
       ggplot(data = aa, aes(reorder(Food, -n), y = n)) +
+      
+      #Bars ordered by descending order
+        
         geom_bar(stat = "identity", fill = "firebrick1") +
+        
+        #Title of each item is at an angle so it fits in space
+        
         theme(axis.text.x = element_text(angle = 60, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-          labs(x = "Menu Item", y = "Frequency Served") + 
+        
+        #Title names and font/size are selected
+          
+        labs(x = "Menu Item", y = "Frequency Served") + 
         theme(axis.text=element_text(size=10),
               axis.title=element_text(size=15,face="bold"))
       

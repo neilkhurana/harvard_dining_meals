@@ -40,6 +40,7 @@ ui <- dashboardPage(skin = "red",
   dashboardBody(
     
     # Boxes need to be put in a row (or column)
+    
     tabItems(
       
       # First tab content including descriptions and sources
@@ -227,11 +228,11 @@ server <- function(input, output) {
         
         ggplot(data = z, aes(x= reorder(Food, -n), y = n)) +
           geom_bar(stat = "identity", fill = "firebrick1") +
-          theme(axis.text.x = element_text(angle = 30, hjust = 1), 
+          theme(axis.text.x = element_text(angle = 45, hjust = 1), 
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank()) +
           labs(x = "Menu Item", y = "Freqency Served") +
-          theme(axis.text=element_text(size=12),
+          theme(axis.text=element_text(size=10),
                 axis.title=element_text(size=14,face="bold"))
         
       
@@ -252,11 +253,11 @@ server <- function(input, output) {
       
       ggplot(data = y, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
-        theme(axis.text.x = element_text(angle = 30, hjust = 1), 
+        theme(axis.text.x = element_text(angle = 45, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
         labs(x = "Menu Item", y = "Frequency Served")+
-        theme(axis.text=element_text(size=12),
+        theme(axis.text=element_text(size=10),
               axis.title=element_text(size=14,face="bold"))
       
       
@@ -278,11 +279,11 @@ server <- function(input, output) {
       
       ggplot(data = aa, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
-        theme(axis.text.x = element_text(angle = 30, hjust = 1), 
+        theme(axis.text.x = element_text(angle = 45, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
           labs(x = "Menu Item", y = "Frequency Served") + 
-        theme(axis.text=element_text(size=12),
+        theme(axis.text=element_text(size=10),
               axis.title=element_text(size=14,face="bold"))
       
         

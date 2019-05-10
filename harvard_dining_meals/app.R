@@ -118,7 +118,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your choice of meat."))
                 ),
                 
-                plotOutput("meatselect", height = 600)
+                plotOutput("meatselect", height = 500)
                 
               )
           ),
@@ -144,7 +144,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your meal time."))
                 ),
                 
-                plotOutput("mealselect", height = 600)
+                plotOutput("mealselect", height = 500)
               )
         ),
       
@@ -184,7 +184,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your desired meal time."))
                 ),
                 
-                plotOutput("weekselect", height = 600)
+                plotOutput("weekselect", height = 500)
               )
         )
       

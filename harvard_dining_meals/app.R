@@ -144,7 +144,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your meal time."))
                 ),
                 
-                plotOutput("mealselect", height = 500)
+                plotOutput("mealselect", height = 600)
               )
         ),
       
@@ -273,7 +273,7 @@ server <- function(input, output) {
         
         #Title of each item is at an angle so it fits in space
         
-        theme(axis.text.x = element_text(angle = 60, hjust = 1), 
+        theme(axis.text.x = element_text(angle = 70, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
         

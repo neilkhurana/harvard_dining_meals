@@ -115,7 +115,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your choice of meat."))
                 ),
                 
-                plotOutput("meatselect", height = 500)
+                plotOutput("meatselect", height = 600)
                 
               )
           ),
@@ -141,7 +141,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your meal time."))
                 ),
                 
-                plotOutput("mealselect", height = 500)
+                plotOutput("mealselect", height = 600)
               )
         ),
       
@@ -177,7 +177,7 @@ ui <- dashboardPage(skin = "red",
                   h5(helpText("Select your desired meal time."))
                 ),
                 
-                plotOutput("weekselect", height = 500)
+                plotOutput("weekselect", height = 600)
               )
         )
       
@@ -199,7 +199,8 @@ server <- function(input, output) {
   #We filter out menu items that contain these key words primarly because these items are served by HUDS everyday and their would be no variation in their frequency
     
   huds_filter <- huds %>% 
-    filter(!str_detect(Food, "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf"))
+    filter(!str_detect(Food, 
+          "Syrup|fruit|Fruit|Diced|Steamed|Beans|Cheese|Sauce|Rice|Salsa|Rolls|Bread|Baguette|Cream|Potatoes|Toast|Peas|Topping|Chips|Banana|Guacamole|Chopped|Lettuce|Hummus|Sugar|Loaf|Blueberries|Apples|Bananas"))
   
   
   output$table <- renderDT({
@@ -228,12 +229,12 @@ server <- function(input, output) {
         
         ggplot(data = z, aes(x= reorder(Food, -n), y = n)) +
           geom_bar(stat = "identity", fill = "firebrick1") +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+          theme(axis.text.x = element_text(angle = 60, hjust = 1), 
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank()) +
           labs(x = "Menu Item", y = "Freqency Served") +
           theme(axis.text=element_text(size=10),
-                axis.title=element_text(size=14,face="bold"))
+                axis.title=element_text(size=15,face="bold"))
         
       
     })
@@ -253,12 +254,12 @@ server <- function(input, output) {
       
       ggplot(data = y, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        theme(axis.text.x = element_text(angle = 60, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
         labs(x = "Menu Item", y = "Frequency Served")+
         theme(axis.text=element_text(size=10),
-              axis.title=element_text(size=14,face="bold"))
+              axis.title=element_text(size=15,face="bold"))
       
       
       
@@ -279,12 +280,12 @@ server <- function(input, output) {
       
       ggplot(data = aa, aes(reorder(Food, -n), y = n)) +
         geom_bar(stat = "identity", fill = "firebrick1") +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        theme(axis.text.x = element_text(angle = 60, hjust = 1), 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
           labs(x = "Menu Item", y = "Frequency Served") + 
         theme(axis.text=element_text(size=10),
-              axis.title=element_text(size=14,face="bold"))
+              axis.title=element_text(size=15,face="bold"))
       
         
         

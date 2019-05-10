@@ -16,6 +16,7 @@ library(DT)
 library(lubridate)
 
 #Change theme to red, closer to Harvard Crimson theme colors
+#Utilize the dashboard theme of shiny
 
 
 ui <- dashboardPage(skin = "red",
@@ -49,17 +50,17 @@ ui <- dashboardPage(skin = "red",
               h1("Welcome to the Harvard University Dining Services (HUDS) Search Tool"),
               h2("Summary"),
               h4("This dashboard serves a record keeper for Harvard's Undergraduate dining hall menu for the Spring 2019 semester.
-                You have the option to the menu of any date within the semester in our calendar tab.
-                Additional tabs give you a breakdown of the frequently serves dishes of the entire semester or a certain weekday. You can also categorize frequent meat dishes."),
+                You have the option to select a menu of any date in our calendar tab.
+                Additional tabs give you a breakdown of the frequently serves dishes of the entire semester, weekday trends and a categorization of the most frequent meat dishes."),
               h2("Background/Methodology"),
               h4("Some students at Harvard have mixed feelings about the dining hall system. Each dining hall, Annenberg (Freshman dining) and the upperclassmen houses offer
-              the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week, others complain of repitition."),
-              h4("The objective of this investigation was to explore trends in the HUDS menu data while also serving as a record keeper for meals offered. With the current 
-              system, HUDS provides no archiving feature for meal options of previous days."),
-              h4("In order to gain access to HUDS menu's, I simply used script that scrape HUD's", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
+              the same menu options per day, with a few exceptions. While some students believe that HUDS provides a variety of options throughout the week/semester, others complain of repitition."),
+              h4("The objective of this investigation was to explore trends in the HUDS menu data while also serving as a record keeper for meals offered. HUDS provides no
+                 archiving feature for meal options beyond the current date."),
+              h4("To access HUDS menus, I simply utilized a script that scrapes their", a("website", href = "http://www.foodpro.huds.harvard.edu/foodpro/menu_items.asp?type=30&meal=1"), 
                  "each day. Harvard Open Data Project (HODP), a student organization on campus, has developed", 
-                 a("this", href = "http://hodp.org/catalog/index.html?q=huds"), "and it has been collecting information 
-                since the beginning of the Spring 2019 semester."),
+                 a("this", href = "http://hodp.org/catalog/index.html?q=huds"), "and their tool has been collecting information 
+                from the beginning of the Spring 2019 semester."),
               h2("Contact"),
               h4("Feel free to reach out to me, Neil Khurana, at", a("neilkhurana@college.harvard.edu", href = "mailto:neilkhurana@college.harvard.edu"),". You can check 
                  out my",a("GitHub", href = "https://github.com/neilkhurana"),"and code", a("here", 
@@ -70,9 +71,9 @@ ui <- dashboardPage(skin = "red",
       
       tabItem(tabName = "calendar",
               h2("Harvard Dining Archive Calendar"),
-              h4("Starting from the beginning of the spring semester (1/28/2019) and ending on 5/10/2019, we have scraped every meal and its menu items. Please not that on Sundays
-                breakfast is not served (Only brunch and dinner). Brunch falls under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
-                or school holidays/breaks and there is no data for these dates."),
+              h4("For the entirety of the spring semester, we have scraped each meal and its menu items. Please not that on Sundays,
+                breakfast is not served (only brunch and dinner). Brunch falls under the Lunch tab for all Sundays. HUDs also shuts down ocasionally for special events 
+                or school holidays/breaks and there will be no ouput for these days."),
               fluidRow(
                 box(
                   title = "Meal Selection",
@@ -102,7 +103,7 @@ ui <- dashboardPage(skin = "red",
       
       tabItem(tabName = "meatselect",
               h2("Top 10 Meat Dishes"),
-              h4("The most common meats served by HUDS are chicken, pork and meat. In this tab you may view the top ten most frequently served dishes
+              h4("The most common meats served by HUDS are chicken, pork and meat. In this tab, you may view the top ten most frequently served dishes
                  containing your selected meat choice."),
              
               #Meat choices are made, only pork, chicken and beef
@@ -128,7 +129,7 @@ ui <- dashboardPage(skin = "red",
       
       tabItem(tabName = "mealselect",
               h2("Commonly Served Meals"),
-              h4("Students at Harvard often claim their is frequent repitition of dishes. Pick your meal below and see the top 20 most commonly
+              h4("Students at Harvard often claim there is frequent repitition of dishes. Pick your meal below and see the top 20 most commonly
                  served dishes during that meal period. Please note that entrees served by HUDS daily such as fruits, ice cream, and sauce have been filtered out."),
               fluidRow(
                 box(
@@ -155,8 +156,8 @@ ui <- dashboardPage(skin = "red",
                 
                 
                 h2("Weekday Meals"),
-                h4("Every wonder if certain meals are more prone to be served on a certain day of the week? Now's your chance to find out. Select the day of the week 
-                   and meal time. Please note that entrees served by HUDS on a daily basis have been filtered out. There is also no breakfast served on Sunday's and only
+                h4("Ever wonder if certain meals are prone to be served on a certain day of the week? Now's your chance to find out. Select the day of the week 
+                   and meal time. Please note that entrees served by HUDS on a daily basis have been filtered out. There is also no breakfast served on Sundays and only
                    a brunch/lunch."),
               fluidRow(
                 box(
